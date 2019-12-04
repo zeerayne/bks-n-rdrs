@@ -114,6 +114,13 @@ DATABASES = {
     'slave': env.db('SLAVE_URL'),
 }
 
+for db in DATABASES.values():
+    db['OPTIONS'] = {
+        'connect_timeout': 1,
+    }
+
+DATABASE_ROUTERS = ['booksandreaders.core.routers.LoadBalanceRouter', ]
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

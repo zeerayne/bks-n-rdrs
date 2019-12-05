@@ -1,0 +1,47 @@
+version: '3'
+services:
+  db-master:
+    image: "bitnami/mariadb:10.4"
+    ports:
+      - "3306"
+    environment:
+      - MARIADB_REPLICATION_MODE=master
+      - MARIADB_REPLICATION_USER=repl
+      - MARIADB_REPLICATION_PASSWORD=replpwd
+      - MARIADB_ROOT_PASSWORD=rootpwd
+      - MARIADB_USER=readersbooks
+      - MARIADB_PASSWORD=strongpwd
+      - MARIADB_DATABASE=readersbooks
+  db-slave:
+    image: "bitnami/mariadb:10.4"
+    ports:
+      - "3306"
+    depends_on:
+      - db-master
+    environment:
+      - MARIADB_REPLICATION_MODE=slave
+      - MARIADB_REPLICATION_USER=repl
+      - MARIADB_REPLICATION_PASSWORD=replpwd
+      - MARIADB_MASTER_HOST=db-master
+      - MARIADB_MASTER_PORT_NUMBER=3306
+      - MARIADB_MASTER_ROOT_PASSWORD=rootpwd
+  web:
+    build: .
+    command: sh -c "
+      ./wait-for-mysql.sh
+      --master=db-master
+      --slave=db-slave
+      --user=readersbooks
+      --password=strongpwd
+      --database=readersbooks
+      && python manage.py migrate && gunicorn --bind=0.0.0.0 --workers=4 booksandreaders.wsgi"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db-master
+      - db-slave
+    environment:
+      DEBUG: "False"
+      SECRET_KEY: "wcz4qsz0+cr22^43uf-+5r^yboo@wkpv8&*9^qjsp$zyiwfl)("
+      MASTER_URL: "mysql://readersbooks:strongpwd@db-master:3306/readersbooks"
+      SLAVE_URL: "mysql://readersbooks:strongpwd@db-slave:3306/readersbooks"

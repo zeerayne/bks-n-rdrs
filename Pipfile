@@ -12,6 +12,7 @@ django-rest-framework = "*"
 django-environ = "*"
 mysqlclient = "*"
 faker = "*"
+djangorestframework-csv = "*"
 
 [requires]
 python_version = "3.8"

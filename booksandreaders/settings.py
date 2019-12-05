@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+
+    'booksandreaders.library',
 ]
 
 if DEBUG:
@@ -81,10 +83,6 @@ LOGGING = {
             'format': '{asctime} [{levelname:3.3s}] <{module}> {message}',
             'style': '{',
         },
-        'simple': {
-            'format': '{asctime} {levelname:3.3s} {message}',
-            'style': '{',
-        },
     },
     'handlers': {
         'console': {
@@ -96,6 +94,7 @@ LOGGING = {
         'django.db': {
             'handlers': ['console'],
             'level': 'DEBUG',
+            'propagate': False,
         },
         'faker': {
             'handlers': ['console'],

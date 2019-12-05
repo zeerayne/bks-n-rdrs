@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a59983f18056b8b2bd00d41abf589ee45cbf0406e84a09662a9eb987b9753cf5"
+            "sha256": "6d07e3690224702dbbcdd7174e9ee1aa64f360a518ef76e682401d08d50d289c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -46,13 +46,20 @@
             ],
             "version": "==3.10.3"
         },
-        "faker": {
+        "djangorestframework-csv": {
             "hashes": [
-                "sha256:48c03580720e0b46538d528b1296e4e5b24a809dcaf33a7dddec719489a9edb8",
-                "sha256:6327c665c0d8721280b3036d9c9e851c60092bc1f30c8394cc433f8723e2bda5"
+                "sha256:2f008b20a44f2d3c37835ea5b5ddfe19f54394f07b9cb267c616a917a7f7e27c"
             ],
             "index": "pypi",
-            "version": "==2.0.4"
+            "version": "==2.1.0"
+        },
+        "faker": {
+            "hashes": [
+                "sha256:202ad3b2ec16ae7c51c02904fb838831f8d2899e61bf18db1e91a5a582feab11",
+                "sha256:92c84a10bec81217d9cb554ee12b3838c8986ce0b5d45f72f769da22e4bb5432"
+            ],
+            "index": "pypi",
+            "version": "==3.0.0"
         },
         "mysqlclient": {
             "hashes": [
@@ -98,6 +105,12 @@
                 "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"
             ],
             "version": "==1.3"
+        },
+        "unicodecsv": {
+            "hashes": [
+                "sha256:018c08037d48649a0412063ff4eda26eaa81eff1546dbffa51fa5293276ff7fc"
+            ],
+            "version": "==0.14.1"
         }
     },
     "develop": {

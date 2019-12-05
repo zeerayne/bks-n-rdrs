@@ -7,6 +7,7 @@ from django.urls import (
 )
 
 urlpatterns = [
+    path('api/v1/', include('booksandreaders.api.v1.urls')),
 ]
 
 if settings.DEBUG:

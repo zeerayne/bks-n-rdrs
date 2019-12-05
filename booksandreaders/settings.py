@@ -120,6 +120,9 @@ for db in DATABASES.values():
 
 DATABASE_ROUTERS = ['booksandreaders.core.routers.LoadBalanceRouter', ]
 
+DATABASE_ROUTER_CACHE_KEY = 'database-router-cache'
+DATABASE_ROUTER_CACHE_TIMEOUT = 30
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -134,6 +137,19 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'default-cache-snowflake',
+        'TIMEOUT ': DATABASE_ROUTER_CACHE_TIMEOUT,
+    },
+    DATABASE_ROUTER_CACHE_KEY: {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': f'{DATABASE_ROUTER_CACHE_KEY}-snowflake',
+        'TIMEOUT ': DATABASE_ROUTER_CACHE_TIMEOUT,
+    },
+}
 
 LANGUAGE_CODE = 'en-us'
 

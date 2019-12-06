@@ -1,5 +1,6 @@
 import logging
 import random
+import sys
 from random import randint
 from django.db import migrations
 from faker import Faker
@@ -36,6 +37,9 @@ def chunks(lst, n):
 
 
 def add_fake_data(apps, schema_editor):
+    if 'test' in sys.argv:
+        log.debug('Fake data will not be added during tests')
+        return
     add_fake_readers()
     add_fake_books()
 

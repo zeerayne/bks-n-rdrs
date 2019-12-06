@@ -8,6 +8,6 @@ COPY Pipfile* /code/
 RUN pipenv install --system --dev
 RUN pip install gunicorn
 COPY wait-for-mysql.sh /code/
-RUN chmod u+x wait-for-mysql.sh
 COPY manage.py /code/
 COPY booksandreaders /code/booksandreaders
+COPY tests /code/tests

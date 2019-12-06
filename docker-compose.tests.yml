@@ -1,0 +1,9 @@
+version: '3'
+services:
+  tests:
+    build: .
+    command: python manage.py test --no-input
+    environment:
+      DEBUG: "True"
+      SECRET_KEY: "dummy-secret-key"
+      DJANGO_SETTINGS_MODULE: "tests.settings"

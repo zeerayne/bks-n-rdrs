@@ -1,5 +1,7 @@
 import os
+import sys
 import environ
+from django.core.exceptions import ImproperlyConfigured
 
 
 env = environ.Env(
@@ -107,16 +109,20 @@ LOGGING = {
     }
 }
 
-
-DATABASES = {
-    'default': env.db('MASTER_URL'),
-    'slave': env.db('SLAVE_URL'),
-}
-
-for db in DATABASES.values():
-    db['OPTIONS'] = {
-        'connect_timeout': 1,
+try:
+    DATABASES = {
+        'default': env.db('MASTER_URL'),
+        'slave': env.db('SLAVE_URL'),
     }
+    for db in DATABASES.values():
+        db['OPTIONS'] = {
+            'connect_timeout': 1,
+        }
+except ImproperlyConfigured as e:
+    if 'test' in sys.argv:
+        pass
+    else:
+        raise e
 
 DATABASE_ROUTERS = ['booksandreaders.core.routers.LoadBalanceRouter', ]
 

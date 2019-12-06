@@ -13,5 +13,5 @@ router.register('reader', ReaderViewSet, basename='reader')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('export/', CSVExportView.as_view()),
+    path('export/', CSVExportView.as_view(), name='csv-export'),
 ]

@@ -28,28 +28,33 @@ class CSVExportView(views.APIView):
     permission_classes = (AllowAny,)
     authentication_classes = ()
 
-    def get(self, request, format=None):
+    @classmethod
+    def get_prepared_content(cls):
         readers = Reader.objects.all()
         books = Book.objects.all()
         content = [
-            {
-                'reader_id': reader.id,
-                'reader_name': reader.name,
-                'book_id': None,
-                'book_name': None,
-                'book_isbn': None,
-                'book_reader_id': None,
-            } for reader in readers
-        ] + [
-            {
-                'reader_id': None,
-                'reader_name': None,
-                'book_id': book.id,
-                'book_name': book.name,
-                'book_isbn': book.isbn,
-                'book_reader_id': book.reader_id,
-            } for book in books
-        ]
+                      {
+                          'reader_id': reader.id,
+                          'reader_name': reader.name,
+                          'book_id': None,
+                          'book_name': None,
+                          'book_isbn': None,
+                          'book_reader_id': None,
+                      } for reader in readers
+                  ] + [
+                      {
+                          'reader_id': None,
+                          'reader_name': None,
+                          'book_id': book.id,
+                          'book_name': book.name,
+                          'book_isbn': book.isbn,
+                          'book_reader_id': book.reader_id,
+                      } for book in books
+                  ]
+        return content
+
+    def get(self, request, format=None):
+        content = CSVExportView.get_prepared_content()
         datetime_str = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         return Response(
             content,

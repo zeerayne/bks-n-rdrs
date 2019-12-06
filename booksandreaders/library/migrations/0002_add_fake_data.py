@@ -68,7 +68,7 @@ def add_fake_books():
 
 class Migration(migrations.Migration):
 
-    initial = True
+    initial = False
 
     dependencies = [
         ('library', '0001_initial'),

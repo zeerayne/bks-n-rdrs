@@ -11,7 +11,7 @@ If one host fails, read queries will be directed to another.
 
 Project can be started with
         
-    docker-compose up
+    $ docker-compose up
     
 When startup is complete, port 8000 is exposed for accessing HTTP REST API 
 
@@ -41,15 +41,31 @@ You can access these API endpoints:
 1. DBMS start again [**can connect to database at last**]
 1. App container begin doing django things: migrate, generate data and launch wsgi server
 
+## Tests
+
+You can run tests locally
+
+    $ SECRET_KEY="key-for-tests" DJANGO_SETTINGS_MODULE="tests.settings" python manage.py test
+    
+Or with docker-compose
+
+    $ docker-compose -f docker-compose.tests.yml run --rm tests
+
 # Database router logic
 Router manages only read connections, writes always directed to master database host.
 Read connections randomly distributed among master and slave database hosts.
 
-If one hosts have connection problems, it is marked as "offline" and not used for reads.
+If one host have connection problems, it is marked as "offline" and not used for reads.
 After a time (default 30 seconds) mark is removed and new attempt to connect is made. 
 If still offline - marked again, and so on.
 
 When master database host is offline, app is working in read-only mode. Writes will raise an exception.
+
+To perform check, database master or slave container can be paused:
+
+    $ docker-compose pause db-master
+    
+    $ docker-compose pause db-slave
 
 # Results
 1. All endpoints are working if there is at least one database host online
